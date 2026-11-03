@@ -48,7 +48,7 @@ dsh plugin --profile web remove chobits-chii-dsh
 DSH 的 Plugins → Discover 只显示用户自己添加的索引源。打开 **Plugins → Experimental plugins → Custom plugin indexes**,在 **Discover → Add index source** 里加入:
 
 ```
-https://cdn.jsdelivr.net/gh/Anime2Real/Chobits-Chii-DSH@main/market/index.json
+https://anime2real.github.io/Chobits-Chii-DSH/market/index.json
 ```
 
 然后搜索 "Chii" 即可一键安装。索引文件是 [`market/index.json`](./market/index.json),格式为 DSH 的 format 1。
