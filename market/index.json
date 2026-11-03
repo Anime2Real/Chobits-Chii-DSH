@@ -1,0 +1,82 @@
+{
+  "format": 1,
+  "title": {
+    "en": "Chobits Chii",
+    "zh": "小叽皮肤"
+  },
+  "description": {
+    "en": "Chii-themed skins and companions for the DeepSeek Harness web UI.",
+    "zh": "DeepSeek Harness Web UI 的小叽主题皮肤与桌宠。"
+  },
+  "metadata": {
+    "categories": {
+      "theme": {
+        "title": {
+          "en": "Themes & Appearance",
+          "zh": "主题与外观"
+        }
+      }
+    },
+    "labels": {
+      "photo-wall": {
+        "title": {
+          "en": "Photo wall",
+          "zh": "照片墙"
+        }
+      },
+      "light-dark": {
+        "title": {
+          "en": "Light & dark",
+          "zh": "明暗双主题"
+        }
+      }
+    }
+  },
+  "plugins": [
+    {
+      "name": "chobits-chii-dsh",
+      "title": {
+        "en": "Chobits Chii",
+        "zh": "小叽绘本皮肤"
+      },
+      "description": {
+        "en": "Chobits Chii skin for DeepSeek Harness web UI — neutral warm picture-book palette with a polaroid photo wall (light/dark token sets)",
+        "zh": "中性暖调配色、明暗双 token、拍立得照片墙的小叽绘本风皮肤。"
+      },
+      "author": "Anime2Real",
+      "homepage": "https://github.com/Anime2Real/Chobits-Chii-DSH#readme",
+      "repository": {
+        "url": "https://github.com/Anime2Real/Chobits-Chii-DSH"
+      },
+      "metadata": {
+        "category": "theme",
+        "labels": [
+          "photo-wall",
+          "light-dark"
+        ],
+        "keywords": [
+          "dsh-plugin",
+          "deepseek-harness",
+          "chobits",
+          "chii",
+          "theme",
+          "skin"
+        ]
+      },
+      "versions": [
+        {
+          "version": "0.3.0",
+          "publishTimestamp": 1793703450,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/Anime2Real/Chobits-Chii-DSH",
+            "commit": "e0cba23bc99f4a4dcbc9fb8d91436865196b5489"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.5 <0.3.0"
+          }
+        }
+      ]
+    }
+  ]
+}
