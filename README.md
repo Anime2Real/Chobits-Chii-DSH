@@ -16,7 +16,7 @@
   <img src="docs/preview-dark.png" alt="深色模式预览" width="49%" />
 </p>
 
-> ⚠️ Chobits 及其角色的版权归 CLAMP 及相关权利方所有。本项目代码以 [MIT 许可证](./LICENSE) 发布,角色形象与随附素材仅用于本项目展示,请勿将角色形象用于商业用途。
+> ⚠️ **代码 MIT,资产另计。** Chobits 及其角色的版权归 CLAMP 及相关权利方所有;本项目代码以 [MIT 许可证](./LICENSE) 发布,插画与 Live2D 模型 © Anime2Real,只允许作为本插件的一部分、原样、非商业使用——详见 [ASSETS.md](./ASSETS.md)。
 
 ## ✨ 功能特性
 
@@ -151,8 +151,12 @@ scripts/market-index.mjs # 生成 Discover 索引
 
 ## 📄 许可证
 
-[MIT](./LICENSE)。角色形象与随附素材(插画、Live2D 模型)版权归 CLAMP 及相关权利方,仅用于非商业展示。
+**代码以 [MIT](./LICENSE) 发布；资产不适用 MIT。** 代码开源不等于素材开源——
 
-- `assets/live2d/vendor/live2dcubismcore.min.js`:Live2D Cubism Core,按 [Live2D Proprietary Software License](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html) 随包分发(官方 `RedistributableFiles.txt` 清单允许再分发);许可文本见同目录 `LICENSE-Live2D-Core.md`
-- `assets/live2d/vendor/pixi.min.js` / `live2d.min.js` / `pixi-live2d-display.min.js`:MIT
-- `assets/live2d/chii.model3.json` 等:由 [Chobits-Chii-Live2D](https://github.com/Anime2Real/Chobits-Chii-Live2D) 的 `pipeline/export-web.mjs` 从现役运行时模型导出的 web 精简版(2048 贴图 WebP),来源与体积记录在同目录 `SOURCE.md`
+- **代码**（`src/`、`lib/client.js`、`lib/index.js`、`scripts/`、`cordis.patch.yml`）：MIT
+- **资产**（`assets/` 里的 5 张插画、`assets/live2d/` 里的模型与运行时库、`docs/` 里的预览图）：© Anime2Real，保留所有权利；只允许作为本插件的一部分、原样、非商业使用，不得单独提取或再分发。完整条款见 [ASSETS.md](./ASSETS.md)
+- **角色形象**（小叽 / Chii、《人形电脑天使心》）的著作权归 CLAMP 及相关权利方所有；Anime2Real 不主张、也无法授予这些权利
+- **第三方组件**：`live2dcubismcore.min.js`（Live2D Cubism Core）按 [Live2D Proprietary Software License](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html) 随包分发（官方 `RedistributableFiles.txt` 清单允许再分发），许可文本见同目录 `LICENSE-Live2D-Core.md`；`pixi.min.js` / `live2d.min.js` / `pixi-live2d-display.min.js` 为 MIT——汇总见 [NOTICE](./NOTICE)
+- **模型来源**：`assets/live2d/chii.model3.json` 等由 [Chobits-Chii-Live2D](https://github.com/Anime2Real/Chobits-Chii-Live2D) 的 `pipeline/export-web.mjs` 从现役运行时模型导出的 web 精简版（2048 贴图 WebP），来源与体积记录在同目录 `SOURCE.md`
+
+> 说明：GitHub 的许可识别只看 `LICENSE`，仓库页面上仍会显示 MIT——资产条款以 README 与 [ASSETS.md](./ASSETS.md) 为准。

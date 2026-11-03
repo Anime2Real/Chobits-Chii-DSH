@@ -16,7 +16,9 @@
   "files": [
     "lib",
     "assets",
-    "cordis.patch.yml"
+    "cordis.patch.yml",
+    "ASSETS.md",
+    "NOTICE"
   ],
   "exports": {
     ".": "./lib/index.js",

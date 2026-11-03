@@ -1,0 +1,26 @@
+chobits-chii-dsh
+Copyright (c) Anime2Real
+
+This product includes the following third-party software. Their licenses apply to those files only and are
+not superseded by the MIT license that covers the rest of this package.
+
+- PIXI.js 6.5.10 — MIT License
+  https://github.com/pixijs/pixijs
+  file: assets/live2d/vendor/pixi.min.js
+
+- pixi-live2d-display 0.4.0 — MIT License
+  https://github.com/guansss/pixi-live2d-display
+  file: assets/live2d/vendor/pixi-live2d-display.min.js
+
+- Live2D Cubism Core 5.0.0 (live2dcubismcore.min.js) — Live2D Proprietary Software License Agreement
+  https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html
+  file: assets/live2d/vendor/live2dcubismcore.min.js
+  license text: assets/live2d/vendor/LICENSE-Live2D-Core.md
+  redistributable list: assets/live2d/vendor/RedistributableFiles.txt
+
+- live2d.min.js (Cubism 2 runtime stub; loaded only to satisfy register-time symbol references, no model
+  data is processed by it) — Live2D SDK License Agreement
+  file: assets/live2d/vendor/live2d.min.js
+
+Character artwork and the Chii Live2D model are (c) Anime2Real, all rights reserved; the character itself
+belongs to CLAMP and its rights holders. See ASSETS.md.
