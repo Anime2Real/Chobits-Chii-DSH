@@ -1,0 +1,41 @@
+{
+  "name": "chobits-chii-dsh",
+  "version": "0.1.0",
+  "description": "Chobits Chii skin for DeepSeek Harness web UI — cream & pink picture-book theme (light/dark token sets)",
+  "type": "module",
+  "license": "MIT",
+  "files": [
+    "lib",
+    "cordis.patch.yml"
+  ],
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-theme"
+      ],
+      "immediately": true
+    }
+  },
+  "dshTarget": "0.2.1-rc.5",
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "chobits",
+    "chii",
+    "theme",
+    "skin"
+  ]
+}

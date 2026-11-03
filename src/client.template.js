@@ -1,0 +1,124 @@
+// ---------------------------------------------------------------------------
+// chobits-chii-dsh — 浏览器半(client bundle)
+//
+// 构建产物为免构建纯 JS:仓库内提交 lib/client.js,安装时无需任何构建步骤。
+// 本文件(src/client.template.js)是 lib/client.js 的模板,
+// 由 scripts/build.mjs 将 __TOKENS__ / __CSS__ / __ASSETS__ 三个占位符
+// 替换为内联内容后生成 lib/client.js。
+//
+// DSH 客户端契约(对齐 dsh 0.2.x):
+//   window.__ModuleLoader__.load({ id, factory })
+//   factory(require) 返回 CJS 模块,exports.apply(ctx) 在首次 materialize 时调用。
+//   ctx 服务:theme / slots / modules / settings / remote …(均为可选能力,缺失要容忍)
+// ---------------------------------------------------------------------------
+
+window.__ModuleLoader__.load({
+  id: 'chobits-chii-dsh',
+  factory: function (require) {
+    var module = { exports: {} }
+    var exports = module.exports
+
+    var PLUGIN_ID = 'chobits-chii-dsh'
+    var THEME_ID = 'chobits-chii'
+
+    // 构建占位符说明(scripts/build.mjs 按全词替换,注释里不要写占位符原文):
+    //   TOKENS 占位 → { aliases: { '<css-var>': { light, dark } } }
+    //   CSS 占位   → 皮肤样式字符串(字体/噪点/配图,已内联资产引用)
+    //   ASSETS 占位 → { '<name>': 'data:image/webp;base64,…' }
+    var TOKENS = __TOKENS__
+    // CSS 占位(值见上方注释)
+    var CSS = __CSS__
+    // ASSETS 占位(值见上方注释)
+    var ASSETS = __ASSETS__
+
+    function warn(message, error) {
+      // 插件日志会出现在 profile 进程 stdout / 浏览器控制台,保持克制
+      if (typeof console === 'undefined') return
+      console.warn('[' + PLUGIN_ID + '] ' + message, error || '')
+    }
+
+    // 由 token 集生成 :root / 暗色作用域的 CSS 变量覆盖层。
+    // 作为 theme.overrideTokens 之外的兜底通道:即使运行版本的 theme 服务
+    // 不认某些 token 名,样式层依然生效(层叠优先级高于内置默认)。
+    function buildTokenStylesheet() {
+      var light = []
+      var dark = []
+      for (var alias in TOKENS.aliases) {
+        var pair = TOKENS.aliases[alias]
+        light.push(alias + ':' + pair.light)
+        dark.push(alias + ':' + pair.dark)
+      }
+      return (
+        ':root{\n' + light.join(';\n') + '\n}\n' +
+        '.dark,\n[data-theme="dark"]{\n' + dark.join(';\n') + '\n}\n' +
+        '@media (prefers-color-scheme: dark){\n' +
+        '  :root:not(.light):not([data-theme="light"]){\n' + dark.join(';\n') + '\n  }\n' +
+        '}\n'
+      )
+    }
+
+    // 向 <head> 注入去重样式标签;返回 disposer 供 ctx.effect 清理。
+    function injectStylesheet(cssText) {
+      if (typeof document === 'undefined') return function () {}
+      var id = 'data-plugin-css'
+      var old = document.head.querySelector('style[' + id + '="' + PLUGIN_ID + '"]')
+      if (old) old.parentNode.removeChild(old)
+      var style = document.createElement('style')
+      style.setAttribute(id, PLUGIN_ID)
+      style.setAttribute('data-theme-id', THEME_ID)
+      style.textContent = cssText
+      document.head.appendChild(style)
+      return function () {
+        if (style.parentNode) style.parentNode.removeChild(style)
+      }
+    }
+
+    // 左下角小叽角标(样式由注入的 CSS 承载,这里只负责挂载元素)
+    function injectCornerBadge() {
+      if (typeof document === 'undefined' || !document.body) return function () {}
+      var old = document.querySelector('.chobits-chii-corner')
+      if (old) old.parentNode.removeChild(old)
+      var el = document.createElement('div')
+      el.className = 'chobits-chii-corner'
+      el.setAttribute('aria-hidden', 'true')
+      el.setAttribute('title', 'ちぃ ♡ chobits-chii-dsh')
+      document.body.appendChild(el)
+      return function () {
+        if (el.parentNode) el.parentNode.removeChild(el)
+      }
+    }
+
+    exports.apply = function (ctx) {
+      // 1) theme 服务集成:注册明暗两套 token(优先通道)
+      try {
+        var theme = typeof ctx.get === 'function' ? ctx.get('theme') : undefined
+        if (theme && typeof theme.overrideTokens === 'function') {
+          ctx.effect(function () {
+            return theme.overrideTokens(THEME_ID, TOKENS.aliases)
+          }, THEME_ID + ': tokens')
+        }
+      } catch (error) {
+        warn('theme.overrideTokens unavailable, falling back to stylesheet only', error)
+      }
+
+      // 2) 样式注入:token 变量层 + 皮肤装饰层(兜底通道,同时承载字体/噪点/配图)
+      var disposeSkin = function () {
+        var disposeStyle = injectStylesheet(buildTokenStylesheet() + '\n' + CSS)
+        var disposeBadge = injectCornerBadge()
+        return function () {
+          disposeStyle()
+          disposeBadge()
+        }
+      }
+      if (typeof ctx.effect === 'function') {
+        ctx.effect(disposeSkin, PLUGIN_ID + ': css')
+      } else {
+        disposeSkin()
+      }
+
+      return module.exports
+    }
+
+    return module.exports
+  },
+})

@@ -1,0 +1,5 @@
+# 将 chobits-chii-dsh 的浏览器半注册进 web profile 的界面 roster。
+# 安装方式:dsh plugin --profile web add github:Anime2Real/Chobits-Chii-DSH
+- insert:
+    - id: ui-chobits-chii
+      name: chobits-chii-dsh

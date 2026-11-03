@@ -1,0 +1,70 @@
+/* ---------------------------------------------------------------------------
+ * Chobits Chii 皮肤装饰层 — 由构建脚本内联进 client bundle。
+ *
+ * 职责(与 token 集互补):
+ *   - 圆体字族栈(--dsw-font-family 级联全站)
+ *   - 粉色选中态
+ *   - 绘本噪点纹理(叠在整站最上层,pointer-events 穿透)
+ *   - 左下角漂浮的小叽角标(chii-headpat,构建期内联为 data URI)
+ *
+ * 注意:asset("<name>") 是构建占位符,由 scripts/build.mjs 替换为
+ * assets/<name>.webp 的 data URI。
+ * ------------------------------------------------------------------------- */
+
+/* ---- 圆体字族:优先已安装的圆体,回退系统圆体/无衬线(不拉取网络字体) ---- */
+body {
+  --dsw-font-family: "M PLUS Rounded 1c", "ZCOOL KuaiLe", ui-rounded, "SF Pro Rounded",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+/* ---- 粉色选中态 ---- */
+::selection {
+  background: #e86a92;
+  color: #fff9ee;
+}
+body[data-ds-dark-theme] ::selection {
+  background: #f28bab;
+  color: #2b2320;
+}
+
+/* ---- 绘本噪点(整站最上层,穿透点击;暗色下更轻) ---- */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+body[data-ds-dark-theme]::after {
+  opacity: 0.035;
+}
+
+/* ---- 左下角小叽角标(漂浮动画,不挡交互) ---- */
+.chobits-chii-corner {
+  position: fixed;
+  left: 14px;
+  bottom: 14px;
+  z-index: 2147483000;
+  width: 56px;
+  height: 56px;
+  pointer-events: none;
+  background-image: asset("chii-headpat");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.9;
+  filter: drop-shadow(0 3px 6px rgba(84, 69, 63, 0.28));
+  animation: chobits-chii-float 3.6s ease-in-out infinite;
+}
+@keyframes chobits-chii-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-5px) rotate(2deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chobits-chii-corner {
+    animation: none;
+  }
+}
