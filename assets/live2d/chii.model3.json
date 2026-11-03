@@ -1,0 +1,206 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "chii.moc3",
+    "Textures": [
+      "textures/texture_00.webp",
+      "textures/texture_01.webp"
+    ],
+    "Physics": "chii.physics3.json",
+    "DisplayInfo": "chii.cdi3.json",
+    "Expressions": [
+      {
+        "Name": "Haixiu",
+        "File": "chii.haixiu.exp3.json"
+      },
+      {
+        "Name": "Heilian",
+        "File": "chii.heilian.exp3.json"
+      },
+      {
+        "Name": "Wuyu",
+        "File": "chii.wuyu.exp3.json"
+      }
+    ],
+    "Motions": {
+      "Idle": [
+        {
+          "File": "chii.idle.motion3.json"
+        }
+      ],
+      "Smile": [
+        {
+          "File": "chii.smile.motion3.json"
+        },
+        {
+          "File": "chii.smile.motion3.json"
+        }
+      ],
+      "Surprise": [
+        {
+          "File": "chii.surprise.motion3.json"
+        }
+      ],
+      "Sad": [
+        {
+          "File": "chii.sad.motion3.json"
+        }
+      ],
+      "Angry": [
+        {
+          "File": "chii.angry.motion3.json"
+        }
+      ],
+      "Shy": [
+        {
+          "File": "chii.shy.motion3.json"
+        }
+      ],
+      "Head_yaw": [
+        {
+          "File": "chii.head_yaw.motion3.json"
+        }
+      ],
+      "Head_pitch": [
+        {
+          "File": "chii.head_pitch.motion3.json"
+        }
+      ],
+      "Head_roll": [
+        {
+          "File": "chii.head_roll.motion3.json"
+        }
+      ],
+      "Head_shake": [
+        {
+          "File": "chii.head_shake.motion3.json"
+        }
+      ],
+      "Body_sway": [
+        {
+          "File": "chii.body_sway.motion3.json"
+        }
+      ],
+      "Body_bow": [
+        {
+          "File": "chii.body_bow.motion3.json"
+        }
+      ],
+      "Talk": [
+        {
+          "File": "chii.talk.motion3.json"
+        }
+      ],
+      "Smirk": [
+        {
+          "File": "chii.smirk.motion3.json"
+        }
+      ],
+      "Cheek": [
+        {
+          "File": "chii.cheek.motion3.json"
+        }
+      ],
+      "Look": [
+        {
+          "File": "chii.look.motion3.json"
+        }
+      ],
+      "Blink": [
+        {
+          "File": "chii.blink.motion3.json"
+        }
+      ],
+      "Brows": [
+        {
+          "File": "chii.brows.motion3.json"
+        }
+      ],
+      "Brow_form": [
+        {
+          "File": "chii.brow_form.motion3.json"
+        }
+      ],
+      "Sweep": [
+        {
+          "File": "chii.sweep.motion3.json"
+        }
+      ],
+      "Action": [
+        {
+          "File": "motion/chii_happy.motion3.json",
+          "Name": "开心",
+          "FadeInTime": 0.4,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/chii_nod.motion3.json",
+          "Name": "点头",
+          "FadeInTime": 0.3,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/chii_shakehead.motion3.json",
+          "Name": "摇头",
+          "FadeInTime": 0.3,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/chii_curious.motion3.json",
+          "Name": "好奇",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/chii_shy.motion3.json",
+          "Name": "害羞",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/chii_talk_smile.motion3.json",
+          "Name": "说话微笑(循环)",
+          "FadeInTime": 0.4,
+          "FadeOutTime": 0.5
+        }
+      ],
+      "TapBody": [
+        {
+          "File": "motion/chii_happy.motion3.json",
+          "Name": "开心",
+          "FadeInTime": 0.4,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/chii_curious.motion3.json",
+          "Name": "好奇",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/chii_shy.motion3.json",
+          "Name": "害羞",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        }
+      ]
+    }
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": [
+        "ParamEyeLOpen",
+        "ParamEyeROpen"
+      ]
+    },
+    {
+      "Target": "Parameter",
+      "Name": "LipSync",
+      "Ids": [
+        "ParamMouthOpenY"
+      ]
+    }
+  ]
+}

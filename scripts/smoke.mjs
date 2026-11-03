@@ -17,10 +17,14 @@ globalThis.document = {
   },
   body: {
     appendChild(el) { elements.push(el) },
-    querySelector: () => null
+    querySelector: () => null,
+    setAttribute() {},
+    removeAttribute() {}
   },
   createElement: () => ({
     setAttribute() {},
+    addEventListener() {},
+    removeEventListener() {},
     style: { setProperty() {}, removeProperty() {} },
     appendChild() {},
     set textContent(v) { this._text = v },
@@ -29,6 +33,10 @@ globalThis.document = {
   querySelector: () => null
 }
 globalThis.window = globalThis
+if (typeof globalThis.addEventListener !== 'function') {
+  globalThis.addEventListener = () => {}
+  globalThis.removeEventListener = () => {}
+}
 
 let registered = null
 globalThis.__ModuleLoader__ = {
@@ -43,8 +51,14 @@ await import(pathToFileURL(join(root, 'lib/client.js')).href + '?smoke=' + Date.
 assert.ok(registered, 'bundle 未调用 window.__ModuleLoader__.load')
 assert.equal(registered.id, 'chobits-chii-dsh')
 
+const reactStub = {
+  createElement: (type, props, ...children) => ({ type, props, children }),
+  useState: (initial) => [typeof initial === 'function' ? initial() : initial, () => {}],
+  useEffect: () => {}
+}
 const mod = registered.factory((id) => {
-  throw new Error('皮肤插件不应 require 任何模块: ' + id)
+  if (id === 'react') return reactStub
+  throw new Error('皮肤插件不应 require 其他模块: ' + id)
 })
 assert.equal(typeof mod.apply, 'function', 'factory 须返回带 apply 的模块')
 assert.ok(Array.isArray(mod.inject) && mod.inject.includes('theme'), '插件须声明 inject: [theme],否则 theme 未就绪时会被静默跳过')
@@ -82,4 +96,27 @@ assert.ok(elements.some((el) => el._text && el._text.includes('--dsw-alias-brand
 assert.ok(elements.some((el) => el._text && el._text.includes('chobits-chii-wall')), '样式注入缺少照片墙样式')
 assert.ok(elements.some((el) => el.className === 'chobits-chii-wall'), '照片墙元素未挂载')
 
-console.log(`smoke ok:${seenTokens.length} 个 token 校验通过,样式注入 ${elements.length} 个元素`)
+// ---- 环境 3:有 slots 服务(Plugins 页配置项) ----
+const configRegistrations = []
+const slotsMock = {
+  inject(name, fn) {
+    assert.equal(name, 'plugins.bundle.config')
+    const dispose = fn()
+    return dispose
+  },
+  register(descriptor, component) {
+    configRegistrations.push({ descriptor, component })
+    return () => {}
+  }
+}
+const ctxWithSlots = {
+  get: (name) => (name === 'theme' ? themeMock : name === 'slots' ? slotsMock : undefined),
+  effect: (fn) => fn()
+}
+mod.apply(ctxWithSlots)
+assert.equal(configRegistrations.length, 1, 'Plugins 页配置项未注册')
+assert.equal(configRegistrations[0].descriptor.key, 'chobits-chii-dsh', '配置项必须挂在本 bundle 的 key 下')
+const tree = configRegistrations[0].component({})
+assert.ok(tree && typeof tree.type !== 'undefined', '配置组件应返回 React 元素')
+
+console.log(`smoke ok:${seenTokens.length} 个 token 校验通过,样式注入 ${elements.length} 个元素,配置项 ${configRegistrations.length} 个`)

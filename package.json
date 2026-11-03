@@ -1,7 +1,7 @@
 {
   "name": "chobits-chii-dsh",
-  "version": "0.3.0",
-  "description": "Chobits Chii skin for DeepSeek Harness web UI — neutral warm picture-book palette with a polaroid photo wall (light/dark token sets)",
+  "version": "1.0.0",
+  "description": "Chobits Chii skin for DeepSeek Harness web UI — neutral warm picture-book palette, a polaroid photo wall, and a built-in Live2D Chii mascot with gaze following",
   "type": "module",
   "license": "MIT",
   "author": "Anime2Real",
@@ -15,6 +15,7 @@
   },
   "files": [
     "lib",
+    "assets",
     "cordis.patch.yml"
   ],
   "exports": {

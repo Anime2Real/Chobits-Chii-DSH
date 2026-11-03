@@ -37,10 +37,12 @@ if (leftover) throw new Error('存在未解析的 asset() 占位符: ' + leftove
 
 // ---- 4) 组装并校验 ----
 const template = readFileSync(join(root, 'src/client.template.js'), 'utf8')
+const live2d = readFileSync(join(root, 'src/live2d.js'), 'utf8')
 const out = template
   .replaceAll('__TOKENS__', JSON.stringify(TOKENS))
   .replaceAll('__CSS__', JSON.stringify(css))
   .replaceAll('__ASSETS__', JSON.stringify(assets))
+  .replaceAll('__LIVE2D__', () => live2d.trim())
 
 if (/^\s*(import|export)\s/m.test(out)) {
   throw new Error('产物必须是无 import/export 的纯 JS(client bundle 契约)')
