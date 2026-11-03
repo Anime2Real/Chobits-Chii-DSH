@@ -51,7 +51,7 @@ DSH 的 Plugins → Discover 只显示用户自己添加的索引源。打开 **
 https://anime2real.github.io/Chobits-Chii-DSH/market/index.json
 ```
 
-然后搜索 "Chii" 即可一键安装。索引文件是 [`market/index.json`](./market/index.json),格式为 DSH 的 format 1。
+然后搜索 "Chii" 即可一键安装。索引文件是 [`market/index.json`](./market/index.json),格式为 DSH 的 format 1;生成脚本优先使用 npm 源,未发布时回退到 Git commit。
 
 本地开发安装(在仓库目录下,以 link 方式挂进 profile):
 
