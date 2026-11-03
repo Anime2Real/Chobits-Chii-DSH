@@ -90,7 +90,7 @@ DSH 处于 developer preview,升级后若 token 名或客户端插件契约变�
 ```sh
 node scripts/build.mjs        # src/ + assets/ → lib/client.js(纯 JS,提交进仓库,安装免构建)
 node scripts/smoke.mjs        # 无浏览器冒烟:ModuleLoader 契约 / 有无 theme 服务两种环境
-node scripts/market-index.mjs # 发布新版本后重新生成 market/index.json(以当前 commit 为源)
+node scripts/market-index.mjs # 发布新版本后重新生成 market/index.json(优先 npm 源,未发布时回退到当前 commit)
 ```
 
 目录结构:
