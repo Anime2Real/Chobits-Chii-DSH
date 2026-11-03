@@ -80,7 +80,7 @@ DSH 处于 developer preview,升级后若 token 名或客户端插件契约变�
 ## 🎨 自定义
 
 - **调色**:改 `src/tokens.js` 的 token 值(明暗成对),重建即可
-- **照片墙**:改 `src/client.template.js` 的 `WALL` 数组(`portrait` 控制横竖、`wide` / `tallOnly` 控制窄窗口显隐、`r` 旋转、`s` 缩放);换图把文件放进 `assets/` 即可
+- **照片墙**:改 `src/client.template.js` 的 `WALL` 数组(`left` / `right` + `y` / `bottom` 控制锚点、`portrait` 控制横竖、`wide` / `tallOnly` 控制窄窗口显隐、`r` 旋转、`s` 缩放);换图把文件放进 `assets/` 即可
 - **渐隐范围与透明度**:`src/skin.css` 的 `.chobits-chii-wall`
 
 改完执行 `node scripts/build.mjs`,重启 `dsh web` 并刷新页面。

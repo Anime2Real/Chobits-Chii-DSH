@@ -35,7 +35,7 @@ window.__ModuleLoader__.load({
     // wide 标记的照片只在宽窗口显示(窄窗口避免压住内容)
     var WALL = [
       { asset: 'wall-chii-hero', left: 'calc(310px + 2%)', y: '6%', r: '-7deg', s: 1, portrait: true, wide: true },
-      { asset: 'wall-chii-picturebook', left: 'calc(310px + 13%)', y: '2%', r: '5deg', s: 0.72, portrait: true, wide: true },
+      { asset: 'wall-chii-picturebook', left: 'calc(310px + 4%)', bottom: '4%', r: '5deg', s: 0.72, portrait: true, wide: true },
       { asset: 'wall-chii-hideki-chibi', right: '2%', y: '6%', r: '4deg', s: 0.95 },
       { asset: 'wall-chobits-family', right: '2%', y: '42%', r: '-5deg', s: 1, tallOnly: true },
       { asset: 'wall-chii-headpat', right: '9%', y: '74%', r: '3deg', s: 0.85 }
@@ -101,7 +101,8 @@ window.__ModuleLoader__.load({
           (item.tallOnly ? ' chobits-chii-photo--tall-only' : '')
         if (item.left !== undefined) photo.style.left = item.left
         if (item.right !== undefined) photo.style.right = item.right
-        photo.style.top = item.y
+        if (item.bottom !== undefined) photo.style.bottom = item.bottom
+        else photo.style.top = item.y
         photo.style.setProperty('--r', item.r || '0deg')
         photo.style.setProperty('--s', String(item.s === undefined ? 1 : item.s))
         photo.style.setProperty('--ar', item.portrait ? '4 / 5' : '5 / 4')
