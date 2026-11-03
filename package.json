@@ -1,9 +1,18 @@
 {
   "name": "chobits-chii-dsh",
   "version": "0.3.0",
-  "description": "Chobits Chii skin for DeepSeek Harness web UI — cream & pink picture-book theme (light/dark token sets)",
+  "description": "Chobits Chii skin for DeepSeek Harness web UI — neutral warm picture-book palette with a polaroid photo wall (light/dark token sets)",
   "type": "module",
   "license": "MIT",
+  "author": "Anime2Real",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anime2Real/Chobits-Chii-DSH.git"
+  },
+  "homepage": "https://github.com/Anime2Real/Chobits-Chii-DSH#readme",
+  "bugs": {
+    "url": "https://github.com/Anime2Real/Chobits-Chii-DSH/issues"
+  },
   "files": [
     "lib",
     "cordis.patch.yml"
@@ -18,6 +27,7 @@
     "smoke": "node scripts/smoke.mjs"
   },
   "dsh": {
+    "manifestVersion": 1,
     "bundle": {
       "patch": "cordis.patch.yml"
     },
@@ -29,7 +39,9 @@
       "immediately": true
     }
   },
-  "dshTarget": "0.2.1-rc.5",
+  "engines": {
+    "dsh": ">=0.2.1-rc.5 <0.3.0"
+  },
   "keywords": [
     "dsh-plugin",
     "deepseek-harness",

@@ -1,0 +1,8 @@
+# Submit this file as data/plugins/Anime2Real__Chobits-Chii-DSH.yml in
+# https://github.com/awesome-dsh-plugin/awesome-dsh-plugin
+url: https://github.com/Anime2Real/Chobits-Chii-DSH
+name: Anime2Real/Chobits-Chii-DSH
+category: theme
+description:
+  en: Neutral warm Chobits Chii picture-book skin for the DSH web UI, with light and dark token sets and a polaroid photo wall.
+  zh: DeepSeek Harness Web UI 的小叽绘本风皮肤，明暗双 token 与拍立得照片墙。

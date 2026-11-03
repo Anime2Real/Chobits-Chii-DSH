@@ -30,6 +30,10 @@
 要求已安装 DeepSeek Harness(`dsh --version` 有输出),并至少启动过一次 `dsh web`:
 
 ```sh
+# npm(发布后可用)
+dsh plugin --profile web add chobits-chii-dsh
+
+# GitHub 源(无需 npm)
 dsh plugin --profile web add github:Anime2Real/Chobits-Chii-DSH
 ```
 
@@ -38,6 +42,16 @@ dsh plugin --profile web add github:Anime2Real/Chobits-Chii-DSH
 ```sh
 dsh plugin --profile web remove chobits-chii-dsh
 ```
+
+### 在 Discover 中发现
+
+DSH 的 Plugins → Discover 只显示用户自己添加的索引源。打开 **Plugins → Experimental plugins → Custom plugin indexes**,在 **Discover → Add index source** 里加入:
+
+```
+https://cdn.jsdelivr.net/gh/Anime2Real/Chobits-Chii-DSH@main/market/index.json
+```
+
+然后搜索 "Chii" 即可一键安装。索引文件是 [`market/index.json`](./market/index.json),格式为 DSH 的 format 1。
 
 本地开发安装(在仓库目录下,以 link 方式挂进 profile):
 
@@ -49,11 +63,11 @@ dsh plugin --profile web add ./
 
 | 项 | 值 |
 | --- | --- |
-| `dshTarget` | `0.2.1-rc.5` |
+| `engines.dsh` | `>=0.2.1-rc.5 <0.3.0` |
 | 暗色选择器 | `body[data-ds-dark-theme]` |
 | token 名来源 | `@deepseek-ai/dsh-client-ui-theme@0.2.1-rc.5` 内置设计平台样式 |
 
-DSH 处于 developer preview,升级后若 token 名或客户端插件契约变化,皮肤可能失效——此时更新 `src/tokens.js` 与 `package.json` 的 `dshTarget` 即可。样式层另有 `body` 级 token 兜底规则,即使 theme 服务不可用也能保持大部分观感。
+DSH 处于 developer preview,升级后若 token 名或客户端插件契约变化,皮肤可能失效——此时更新 `src/tokens.js` 与 `package.json` 的 `engines.dsh` 即可。样式层另有 `body` 级 token 兜底规则,即使 theme 服务不可用也能保持大部分观感。
 
 ## 🔧 工作原理
 
@@ -74,14 +88,15 @@ DSH 处于 developer preview,升级后若 token 名或客户端插件契约变�
 ## 🛠 开发
 
 ```sh
-node scripts/build.mjs   # src/ + assets/ → lib/client.js(纯 JS,提交进仓库,安装免构建)
-node scripts/smoke.mjs   # 无浏览器冒烟:ModuleLoader 契约 / 有无 theme 服务两种环境
+node scripts/build.mjs        # src/ + assets/ → lib/client.js(纯 JS,提交进仓库,安装免构建)
+node scripts/smoke.mjs        # 无浏览器冒烟:ModuleLoader 契约 / 有无 theme 服务两种环境
+node scripts/market-index.mjs # 发布新版本后重新生成 market/index.json(以当前 commit 为源)
 ```
 
 目录结构:
 
 ```
-package.json           # dsh.client 清单 + dsh.bundle.patch + dshTarget
+package.json           # dsh.client 清单 + dsh.bundle.patch + engines.dsh
 cordis.patch.yml       # 向 web profile roster 插入 ui-chobits-chii 行
 lib/index.js           # host 半(no-op 载体)
 lib/client.js          # 浏览器半(构建产物,已提交)
@@ -90,8 +105,11 @@ src/tokens.js          # 明暗两套 --dsw-* token 集
 src/skin.css           # 装饰层(字体/噪点/照片墙),支持 asset("name") 引用配图
 assets/                # 5 张 jpg 配图(构建期内联)
 docs/                  # README 预览截图
+market/index.json      # Discover 索引(format 1)
+market/awesome/        # awesome-dsh-plugin 投稿条目
 scripts/build.mjs      # 构建脚本(仅 Node 原生 API,零依赖)
 scripts/smoke.mjs      # 冒烟测试
+scripts/market-index.mjs # 生成 Discover 索引
 ```
 
 ## 🗺 路线图
