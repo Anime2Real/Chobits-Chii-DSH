@@ -21,30 +21,31 @@ body {
     "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif !important;
 }
 
-/* ---- 奶油底上的粉彩光斑(叠在 body 背景色之上;内层不透明面板会自然遮住) ---- */
+/* ---- 奶油底上的暖调光斑(中性微光,叠在 body 背景色之上) ---- */
 body {
   background-image:
-    radial-gradient(60rem 40rem at 8% -10%, rgba(255, 211, 224, 0.55), transparent 60%),
-    radial-gradient(50rem 36rem at 100% 0%, rgba(235, 236, 250, 0.5), transparent 55%),
-    radial-gradient(46rem 32rem at 92% 100%, rgba(223, 243, 234, 0.5), transparent 55%),
-    radial-gradient(40rem 30rem at 0% 100%, rgba(246, 234, 223, 0.65), transparent 60%);
+    radial-gradient(60rem 40rem at 8% -10%, rgba(236, 228, 213, 0.6), transparent 60%),
+    radial-gradient(50rem 36rem at 100% 0%, rgba(240, 233, 218, 0.55), transparent 55%),
+    radial-gradient(46rem 32rem at 92% 100%, rgba(226, 232, 226, 0.45), transparent 55%),
+    radial-gradient(40rem 30rem at 0% 100%, rgba(240, 226, 212, 0.6), transparent 60%),
+    radial-gradient(28rem 20rem at 50% 108%, rgba(217, 154, 174, 0.08), transparent 60%);
   background-attachment: fixed;
 }
 body[data-ds-dark-theme] {
   background-image:
-    radial-gradient(60rem 40rem at 8% -10%, rgba(242, 139, 171, 0.16), transparent 60%),
-    radial-gradient(50rem 36rem at 100% 0%, rgba(120, 110, 160, 0.14), transparent 55%),
-    radial-gradient(46rem 32rem at 92% 100%, rgba(110, 150, 130, 0.12), transparent 55%);
+    radial-gradient(60rem 40rem at 8% -10%, rgba(217, 154, 174, 0.08), transparent 60%),
+    radial-gradient(50rem 36rem at 100% 0%, rgba(120, 110, 160, 0.07), transparent 55%),
+    radial-gradient(46rem 32rem at 92% 100%, rgba(110, 150, 130, 0.06), transparent 55%);
 }
 
-/* ---- 粉色选中态 ---- */
+/* ---- 粉色选中态(低饱和玫瑰) ---- */
 ::selection {
-  background: #e86a92;
-  color: #fff9ee;
+  background: #b0687f;
+  color: #fdfaf3;
 }
 body[data-ds-dark-theme] ::selection {
-  background: #f28bab;
-  color: #2b2320;
+  background: #d99aae;
+  color: #26211d;
 }
 
 /* ---- 绘本噪点(整站最上层,穿透点击;暗色下更轻) ---- */
@@ -62,7 +63,7 @@ body[data-ds-dark-theme]::after {
   opacity: 0.035;
 }
 
-/* ---- 照片墙:四周散布的拍立得贴片,中心渐隐(不挡交互,不遮挡正文) ---- */
+/* ---- 照片墙:右侧为主、宽屏时左侧补位;左侧 300px 与中心区域都渐隐 ---- */
 .chobits-chii-wall {
   position: fixed;
   inset: 0;
@@ -70,8 +71,14 @@ body[data-ds-dark-theme]::after {
   pointer-events: none;
   overflow: hidden;
   opacity: 0.45;
-  -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 46%, transparent 0 44%, black 90%);
-  mask-image: radial-gradient(ellipse 62% 62% at 50% 46%, transparent 0 44%, black 90%);
+  -webkit-mask-image:
+    radial-gradient(ellipse 62% 62% at 50% 46%, transparent 0 44%, black 90%),
+    linear-gradient(to right, transparent 0 300px, black 360px);
+  mask-image:
+    radial-gradient(ellipse 62% 62% at 50% 46%, transparent 0 44%, black 90%),
+    linear-gradient(to right, transparent 0 300px, black 360px);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 body[data-ds-dark-theme] .chobits-chii-wall {
   opacity: 0.36;
@@ -79,11 +86,11 @@ body[data-ds-dark-theme] .chobits-chii-wall {
 .chobits-chii-photo {
   position: absolute;
   width: clamp(84px, 13vw, 170px);
-  aspect-ratio: 4 / 5;
+  aspect-ratio: var(--ar, 4 / 5);
   padding: 6px 6px 18px;
-  background: #fffdf6;
-  border: 1px solid rgba(84, 69, 63, 0.25);
-  box-shadow: 0 10px 24px rgba(84, 69, 63, 0.18);
+  background: #fffdf8;
+  border: 1px solid rgba(90, 79, 69, 0.25);
+  box-shadow: 0 10px 24px rgba(90, 79, 69, 0.16);
   transform: rotate(var(--r, 0deg)) scale(var(--s, 1));
   transform-origin: center;
 }
@@ -95,9 +102,22 @@ body[data-ds-dark-theme] .chobits-chii-wall {
   background-position: center;
 }
 body[data-ds-dark-theme] .chobits-chii-photo {
-  background: #332a25;
-  border-color: rgba(246, 234, 223, 0.22);
+  background: #352e28;
+  border-color: rgba(239, 230, 216, 0.22);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+.chobits-chii-photo--wide-only {
+  display: none;
+}
+@media (min-width: 1240px) {
+  .chobits-chii-photo--wide-only {
+    display: block;
+  }
+}
+@media (max-width: 900px) {
+  .chobits-chii-photo--tall-only {
+    display: none;
+  }
 }
 @media (max-width: 720px) {
   .chobits-chii-photo {

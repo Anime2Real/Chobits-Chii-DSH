@@ -31,16 +31,14 @@ window.__ModuleLoader__.load({
     // ASSETS 占位(值见上方注释)
     var ASSETS = __ASSETS__
 
-    // 照片墙布局:围绕四边散布,中心留白(由 CSS mask 渐隐),单位见 skin.css
+    // 照片墙:仅使用落地页真实使用的 5 张配图;portrait 控制横/竖拍立得,
+    // wide 标记的照片只在宽窗口显示(窄窗口避免压住内容)
     var WALL = [
-      { asset: 'wall-chii-hero', x: '1%', y: '7%', r: '-7deg', s: 1 },
-      { asset: 'wall-chii-picturebook', x: '15%', y: '2%', r: '4deg', s: 0.72 },
-      { asset: 'wall-chii-logo', right: '2%', y: '5%', r: '6deg', s: 0.62 },
-      { asset: 'wall-chii-manga', right: '11%', y: '21%', r: '-4deg', s: 0.92 },
-      { asset: 'wall-chii-window', x: '2%', y: '37%', r: '5deg', s: 0.85 },
-      { asset: 'wall-chobits-family', right: '1%', y: '45%', r: '-6deg', s: 1 },
-      { asset: 'chii-headpat', x: '9%', y: '72%', r: '-3deg', s: 0.78 },
-      { asset: 'wall-sumomo', right: '9%', y: '73%', r: '5deg', s: 0.85 }
+      { asset: 'wall-chii-hero', left: 'calc(310px + 2%)', y: '6%', r: '-7deg', s: 1, portrait: true, wide: true },
+      { asset: 'wall-chii-picturebook', left: 'calc(310px + 13%)', y: '2%', r: '5deg', s: 0.72, portrait: true, wide: true },
+      { asset: 'wall-chii-hideki-chibi', right: '2%', y: '6%', r: '4deg', s: 0.95 },
+      { asset: 'wall-chobits-family', right: '2%', y: '42%', r: '-5deg', s: 1, tallOnly: true },
+      { asset: 'wall-chii-headpat', right: '9%', y: '74%', r: '3deg', s: 0.85 }
     ]
 
     function warn(message, error) {
@@ -97,12 +95,16 @@ window.__ModuleLoader__.load({
       for (var i = 0; i < WALL.length; i++) {
         var item = WALL[i]
         var photo = document.createElement('div')
-        photo.className = 'chobits-chii-photo'
-        if (item.x !== undefined) photo.style.left = item.x
+        photo.className =
+          'chobits-chii-photo' +
+          (item.wide ? ' chobits-chii-photo--wide-only' : '') +
+          (item.tallOnly ? ' chobits-chii-photo--tall-only' : '')
+        if (item.left !== undefined) photo.style.left = item.left
         if (item.right !== undefined) photo.style.right = item.right
         photo.style.top = item.y
         photo.style.setProperty('--r', item.r || '0deg')
         photo.style.setProperty('--s', String(item.s === undefined ? 1 : item.s))
+        photo.style.setProperty('--ar', item.portrait ? '4 / 5' : '5 / 4')
         var inner = document.createElement('i')
         inner.style.backgroundImage = 'url("' + ASSETS[item.asset] + '")'
         photo.appendChild(inner)
