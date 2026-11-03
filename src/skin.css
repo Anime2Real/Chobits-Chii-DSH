@@ -63,11 +63,13 @@ body[data-ds-dark-theme]::after {
   opacity: 0.035;
 }
 
-/* ---- 照片墙:右侧为主、宽屏时左侧补位;左侧 300px 与中心区域都渐隐 ---- */
+/* ---- 照片墙:右侧为主、宽屏时左侧补位;左侧 300px 与中心区域都渐隐 ----
+ * z-index 取 30:在正文/侧边栏之上、弹出菜单(70)、弹窗(1000)、toast(1100)之下,
+ * 所以打开设置等弹窗时照片会被正常遮住 */
 .chobits-chii-wall {
   position: fixed;
   inset: 0;
-  z-index: 2147482000;
+  z-index: 30;
   pointer-events: none;
   overflow: hidden;
   opacity: 0.45;
@@ -91,8 +93,19 @@ body[data-ds-dark-theme] .chobits-chii-wall {
   background: #fffdf8;
   border: 1px solid rgba(90, 79, 69, 0.25);
   box-shadow: 0 10px 24px rgba(90, 79, 69, 0.16);
-  transform: rotate(var(--r, 0deg)) scale(var(--s, 1));
+  transform: translate3d(var(--px, 0px), var(--py, 0px), 0) rotate(var(--r, 0deg)) scale(var(--s, 1));
   transform-origin: center;
+  animation: chobits-chii-float var(--fd, 9s) ease-in-out var(--fdel, 0s) infinite;
+  will-change: transform, translate;
+}
+@keyframes chobits-chii-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chobits-chii-photo {
+    animation: none;
+  }
 }
 .chobits-chii-photo > i {
   display: block;
@@ -122,5 +135,108 @@ body[data-ds-dark-theme] .chobits-chii-photo {
 @media (max-width: 720px) {
   .chobits-chii-photo {
     width: clamp(64px, 17vw, 110px);
+  }
+}
+
+/* ---- Live2D 桌宠:右下角,默认开启;点击穿透,只有关闭按钮可点 ---- */
+body[data-chii-mascot] .chobits-chii-photo[data-wall="wall-chii-headpat"] {
+  /* 桌宠在场时,右下角那张照片直接隐藏(不挪位置,免得和桌宠挤在一起);
+     桌宠关掉后它回到用户自己设的位置 */
+  display: none;
+}
+.chobits-chii-mascot {
+  position: fixed;
+  right: 6px;
+  bottom: 0;
+  /* 与照片墙同层,略高一层;同样在菜单/弹窗之下 */
+  z-index: 35;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.chobits-chii-mascot[data-ready] {
+  opacity: 1;
+}
+.chobits-chii-mascot-canvas {
+  display: block;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chobits-chii-mascot {
+    transition: none;
+  }
+}
+
+/* ---- Plugins 页配置项:桌宠开关 ---- */
+.chobits-chii-config {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+}
+.chobits-chii-config-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary, #5a4f45);
+}
+.chobits-chii-config-desc {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--dsw-alias-label-tertiary, #8a7f74);
+}
+.chobits-chii-config-org {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--dsw-alias-label-tertiary, #8a7f74);
+}
+.chobits-chii-config-org a {
+  color: var(--dsw-alias-brand-primary, #b0687f);
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
+}
+.chobits-chii-config-org a:hover {
+  border-bottom-style: solid;
+}
+.chobits-chii-switch {
+  position: relative;
+  flex: none;
+  width: 40px;
+  height: 22px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--dsw-alias-border-l2, rgba(90, 79, 69, 0.3));
+  background: var(--dsw-alias-bg-l2, rgba(90, 79, 69, 0.18));
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.chobits-chii-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 0.18s ease;
+}
+.chobits-chii-switch.is-on {
+  border-color: transparent;
+  background: var(--dsw-alias-brand-primary, #b0687f);
+}
+.chobits-chii-switch.is-on .chobits-chii-switch-thumb {
+  transform: translateX(18px);
+}
+.chobits-chii-switch:focus-visible {
+  outline: 2px solid var(--dsw-focus-ring-color, var(--dsw-alias-brand-primary, #b0687f));
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chobits-chii-switch,
+  .chobits-chii-switch-thumb {
+    transition: none;
   }
 }

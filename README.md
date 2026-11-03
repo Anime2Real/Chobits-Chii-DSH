@@ -22,8 +22,10 @@
 
 - **中性暖调配色**:暖奶油底 + 暖墨文字 + 低饱和玫瑰点缀,浅色 / 深色两套 token(色板取自 [Chobits-Chii-Mascot-Release](https://github.com/Anime2Real/Chobits-Chii-Mascot-Release) 落地页,并按中性化取向收敛)
 - **拍立得照片墙**:落地页同款 5 张插画做成横 / 竖拍立得贴片,沿界面四周散布、向中心渐隐;左侧 300px 侧边栏区与正文区永不遮挡,窄窗口自动隐藏边缘照片
+- **轻微动态**:鼠标移动时照片按各自深度做反向视差,照片本身有极慢的漂浮;`prefers-reduced-motion` 下自动关闭,触屏不启用视差
 - **细节装饰**:圆体字族、玫瑰色选中态、绘本噪点纹理、暖调背景光斑
-- **纯客户端、免构建安装**:`lib/client.js` 已随仓库提交,`dsh plugin add` 后即可用;所有配图构建期内联为 data URI,单文件、无网络请求
+- **Live2D 小叽桌宠**:右下角常驻的小叽(可在 **Plugins → chobits-chii-dsh** 的配置页里开关,记住选择),视线跟随鼠标;会话开始跑时切到 `Look`、空闲回到 `Idle`;模型是 2048 贴图 WebP 的精简版(约 2.7 MB),随包内置、离线可用,无 WebGL 或加载失败时安静退回照片墙(点击穿透,不做点击触发动作)
+- **纯客户端、免构建安装**:`lib/client.js` 已随仓库提交,`dsh plugin add` 后即可用;配图构建期内联为 data URI,Live2D 运行时与模型由 host 半的只读路由伺服
 - **可热卸载**:一切样式与 DOM 注入都走 `ctx.effect`,禁用 / 卸载插件即完全还原
 
 ## 🚀 安装
@@ -77,12 +79,14 @@ DSH 处于 developer preview,升级后若 token 名或客户端插件契约变�
 1. **theme 服务通道**(主通道):`theme.overrideTokens('chobits-chii', aliases)` 注册 66 个 `--dsw-*` token 的明暗两套覆盖(`src/tokens.js`),随 DSH 外观切换即时生效、可热清理。DSH 的主题渲染器把 token 写在 `<body>` 的 inline style 上,这是唯一能压过内置默认值的通道
 2. **样式层**:向 `<head>` 注入带 `data-plugin-css` 去重标记的样式,承载字体、选中态、噪点、光斑与照片墙(`src/skin.css`);token 变量规则同时挂在 `body` 上,作为渲染器缺位时的次级保护
 3. **照片墙**:`src/client.template.js` 的 `WALL` 数组驱动,5 张 520px jpg(`assets/wall-*.jpg`,共约 250KB)构建期内联为 data URI;竖向图 4:5、横向图 5:4,双层 mask(中心径向渐隐 + 左侧条带)保证可读性
+4. **Live2D 桌宠**:`src/live2d.js`(构建期内联进 `lib/client.js`)在首屏之后空闲时加载 `assets/live2d/` 下的 pixi / Cubism Core / 模型,在右下角挂一个点击穿透的 canvas;host 半(`lib/index.js`)用 `ctx.webServer.register` 把该目录挂成只读路由 `/chii-live2d/assets`,所以模型不进 client bundle、也不依赖外部 CDN
 
 ## 🎨 自定义
 
 - **调色**:改 `src/tokens.js` 的 token 值(明暗成对),重建即可
-- **照片墙**:改 `src/client.template.js` 的 `WALL` 数组(`left` / `right` + `y` / `bottom` 控制锚点、`portrait` 控制横竖、`wide` / `tallOnly` 控制窄窗口显隐、`r` 旋转、`s` 缩放);换图把文件放进 `assets/` 即可
+- **照片墙**:改 `src/client.template.js` 的 `WALL` 数组(`left` / `right` + `y` / `bottom` 控制锚点、`depth` 控制视差深度、`portrait` 控制横竖、`wide` / `tallOnly` 控制窄窗口显隐、`r` 旋转、`s` 缩放);换图把文件放进 `assets/` 即可
 - **渐隐范围与透明度**:`src/skin.css` 的 `.chobits-chii-wall`
+- **桌宠开关**:侧边栏 **Plugins → chobits-chii-dsh** 的配置页里有 **小叽桌宠** 开关(注册在 `plugins.bundle.config`),开关即时生效、不用刷新;桌宠身上没有关闭按钮,关掉后随时能在那里开回来(偏好存在 `localStorage` 的 `chobits-chii-dsh:live2d`);桌宠在场时右下角那张 `wall-chii-headpat` 照片会**直接隐藏**,关掉后再回到原位(`src/skin.css` 里 `body[data-chii-mascot]` 那条规则)
 
 改完执行 `node scripts/build.mjs`,重启 `dsh web` 并刷新页面。
 
@@ -99,13 +103,15 @@ node scripts/market-index.mjs # 发布新版本后重新生成 market/index.json
 ```
 package.json           # dsh.client 清单 + dsh.bundle.patch + engines.dsh
 cordis.patch.yml       # 向 web profile roster 插入 ui-chobits-chii 行
-lib/index.js           # host 半(no-op 载体)
+lib/index.js           # host 半:把 assets/live2d/ 挂成只读路由 /chii-live2d/assets
 lib/client.js          # 浏览器半(构建产物,已提交)
 src/client.template.js # lib/client.js 的模板(占位符由 build 替换)
+src/live2d.js          # Live2D 桌宠控制器(构建期内联)
 src/tokens.js          # 明暗两套 --dsw-* token 集
-src/skin.css           # 装饰层(字体/噪点/照片墙),支持 asset("name") 引用配图
+src/skin.css           # 装饰层(字体/噪点/照片墙/桌宠),支持 asset("name") 引用配图
 assets/                # 5 张 jpg 配图(构建期内联)
-docs/                  # README 预览截图
+assets/live2d/         # web 精简模型(2.7 MB)+ 运行时库 + Core(路由伺服,不进 bundle)
+docs/                  # README 预览截图、Live2D 方案文档
 market/index.json      # Discover 索引(format 1)
 market/awesome/        # awesome-dsh-plugin 投稿条目
 scripts/build.mjs      # 构建脚本(仅 Node 原生 API,零依赖)
@@ -117,9 +123,20 @@ scripts/market-index.mjs # 生成 Discover 索引
 
 - **v0.1**:皮肤 MVP —— token 双主题 + 字体/噪点
 - **v0.2**:拍立得照片墙背景(中心渐隐)
-- **v0.3(当前)**:中性配色 + 横竖拍立得 + 侧边栏/正文避让(仅用落地页 5 张图)
-- **v0.4**:欢迎页/空状态大图配图、设置页开关
-- **v1.0(第二阶段)**:Live2D 小叽桌宠(会话状态驱动动作表情、点击插话),复用 [Chobits-Chii-Mascot](https://github.com/Anime2Real/Chobits-Chii-Mascot) 的 chii 模型资产
+- **v0.3**:中性配色 + 横竖拍立得 + 侧边栏/正文避让(仅用落地页 5 张图)
+- **v1.0(当前)**:Live2D 小叽桌宠 —— 内置 web 精简模型、右下角常驻、视线跟随、`running → Look` / 空闲 → `Idle`、Plugins 页开关
+- **v1.1**:更多状态联动(审批 → 警觉、完成 / 失败 → 表情)、桌宠可拖动、缩放设置项
+- **v1.2**:`Chobits-Chii-Live2D` 侧导出更小的 1024 贴图变体、无障碍与性能巡检
+
+## 🏠 关于 Anime2Real
+
+[Anime2Real](https://github.com/Anime2Real) 是一群把「二次元角色」做成能真正跑起来的东西的开发者:桌宠、语音、Live2D、3D、对话模型,一路从素材生产做到能安装的成品,全部开源。小叽(Chii)是我们的第一个角色,这个皮肤只是她在 DeepSeek Harness 里的一个落脚点。
+
+- 组织主页:[github.com/Anime2Real](https://github.com/Anime2Real)
+- 想看小叽在桌面上活起来:[Chobits-Chii-Mascot](https://github.com/Anime2Real/Chobits-Chii-Mascot) / [发布页](https://anime2real.github.io/Chobits-Chii-Mascot-Release/)
+- 想给她一副嗓子:[Chobits-Chii-TTS](https://github.com/Anime2Real/Chobits-Chii-TTS) · [Chobits-Chii-ASR](https://github.com/Anime2Real/Chobits-Chii-ASR)
+- 想看模型怎么做出来的:[Chobits-Chii-Live2D](https://github.com/Anime2Real/Chobits-Chii-Live2D)
+- 想参与:每个仓库的 issue 都开着,欢迎提想法、报问题、交 PR;点个 Star 也能让更多人找到我们
 
 ## 🔗 小叽家族
 
@@ -135,3 +152,7 @@ scripts/market-index.mjs # 生成 Discover 索引
 ## 📄 许可证
 
 [MIT](./LICENSE)。角色形象与随附素材(插画、Live2D 模型)版权归 CLAMP 及相关权利方,仅用于非商业展示。
+
+- `assets/live2d/vendor/live2dcubismcore.min.js`:Live2D Cubism Core,按 [Live2D Proprietary Software License](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html) 随包分发(官方 `RedistributableFiles.txt` 清单允许再分发);许可文本见同目录 `LICENSE-Live2D-Core.md`
+- `assets/live2d/vendor/pixi.min.js` / `live2d.min.js` / `pixi-live2d-display.min.js`:MIT
+- `assets/live2d/chii.model3.json` 等:由 [Chobits-Chii-Live2D](https://github.com/Anime2Real/Chobits-Chii-Live2D) 的 `pipeline/export-web.mjs` 从现役运行时模型导出的 web 精简版(2048 贴图 WebP),来源与体积记录在同目录 `SOURCE.md`
