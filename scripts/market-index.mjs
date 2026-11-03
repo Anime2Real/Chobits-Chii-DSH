@@ -70,7 +70,7 @@ const index = {
       title: { en: 'Chobits Chii', zh: '小叽绘本皮肤' },
       description: {
         en: pkg.description,
-        zh: '中性暖调配色、明暗双 token、拍立得照片墙的小叽绘本风皮肤。',
+        zh: '中性暖调配色、明暗双 token、拍立得照片墙,以及内置 Live2D 小叽桌宠(视线跟随)的小叽绘本风皮肤。',
       },
       author: pkg.author,
       homepage: pkg.homepage,
