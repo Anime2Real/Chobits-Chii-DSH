@@ -10,12 +10,20 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const { TOKENS } = await import(pathToFileURL(join(root, 'src/tokens.js')).href)
 
 // ---- 2) 配图 → data URI ----
+const MIME = {
+  '.webp': 'image/webp',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png'
+}
 const assetsDir = join(root, 'assets')
 const assets = {}
 for (const file of readdirSync(assetsDir)) {
-  if (extname(file) !== '.webp') continue
+  const ext = extname(file).toLowerCase()
+  const mime = MIME[ext]
+  if (!mime) continue
   const buf = readFileSync(join(assetsDir, file))
-  assets[basename(file, '.webp')] = 'data:image/webp;base64,' + buf.toString('base64')
+  assets[basename(file, ext)] = `data:${mime};base64,` + buf.toString('base64')
 }
 
 // ---- 3) CSS:解析 asset("name") 占位符 ----

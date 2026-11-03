@@ -21,7 +21,8 @@ globalThis.document = {
   },
   createElement: () => ({
     setAttribute() {},
-    style: {},
+    style: { setProperty() {}, removeProperty() {} },
+    appendChild() {},
     set textContent(v) { this._text = v },
     get textContent() { return this._text }
   }),
@@ -78,6 +79,7 @@ mod.apply(ctxWithTheme)
 
 assert.ok(seenTokens.length > 0, 'theme.overrideTokens 未被调用')
 assert.ok(elements.some((el) => el._text && el._text.includes('--dsw-alias-brand-primary')), '样式注入缺少 token 变量层')
-assert.ok(elements.some((el) => el._text && el._text.includes('chobits-chii-corner')), '样式注入缺少角标样式')
+assert.ok(elements.some((el) => el._text && el._text.includes('chobits-chii-wall')), '样式注入缺少照片墙样式')
+assert.ok(elements.some((el) => el.className === 'chobits-chii-wall'), '照片墙元素未挂载')
 
 console.log(`smoke ok:${seenTokens.length} 个 token 校验通过,样式注入 ${elements.length} 个元素`)

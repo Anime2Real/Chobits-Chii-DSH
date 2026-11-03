@@ -62,29 +62,45 @@ body[data-ds-dark-theme]::after {
   opacity: 0.035;
 }
 
-/* ---- 右下角小叽角标(漂浮动画,不挡交互;避开左下角账户区) ---- */
-.chobits-chii-corner {
+/* ---- 照片墙:四周散布的拍立得贴片,中心渐隐(不挡交互,不遮挡正文) ---- */
+.chobits-chii-wall {
   position: fixed;
-  right: 14px;
-  bottom: 14px;
-  z-index: 2147483000;
-  width: 56px;
-  height: 56px;
+  inset: 0;
+  z-index: 2147482000;
   pointer-events: none;
-  background-image: asset("chii-headpat");
-  background-size: contain;
-  background-repeat: no-repeat;
+  overflow: hidden;
+  opacity: 0.45;
+  -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 46%, transparent 0 44%, black 90%);
+  mask-image: radial-gradient(ellipse 62% 62% at 50% 46%, transparent 0 44%, black 90%);
+}
+body[data-ds-dark-theme] .chobits-chii-wall {
+  opacity: 0.36;
+}
+.chobits-chii-photo {
+  position: absolute;
+  width: clamp(84px, 13vw, 170px);
+  aspect-ratio: 4 / 5;
+  padding: 6px 6px 18px;
+  background: #fffdf6;
+  border: 1px solid rgba(84, 69, 63, 0.25);
+  box-shadow: 0 10px 24px rgba(84, 69, 63, 0.18);
+  transform: rotate(var(--r, 0deg)) scale(var(--s, 1));
+  transform-origin: center;
+}
+.chobits-chii-photo > i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
   background-position: center;
-  opacity: 0.9;
-  filter: drop-shadow(0 3px 6px rgba(84, 69, 63, 0.28));
-  animation: chobits-chii-float 3.6s ease-in-out infinite;
 }
-@keyframes chobits-chii-float {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50% { transform: translateY(-5px) rotate(2deg); }
+body[data-ds-dark-theme] .chobits-chii-photo {
+  background: #332a25;
+  border-color: rgba(246, 234, 223, 0.22);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
-@media (prefers-reduced-motion: reduce) {
-  .chobits-chii-corner {
-    animation: none;
+@media (max-width: 720px) {
+  .chobits-chii-photo {
+    width: clamp(64px, 17vw, 110px);
   }
 }
