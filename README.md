@@ -8,7 +8,7 @@
   </p>
 </div>
 
-给 [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deepseek-harness) Web UI 的小叽皮肤插件:奶油底 + 腮红粉 + 暖棕描边的绘本配色,明暗两套 token,圆体字族、粉色选中态、噪点纹理和左下角漂浮的小叽角标。设计风格与配图来自 [Chobits-Chii-Mascot-Release](https://github.com/Anime2Real/Chobits-Chii-Mascot-Release) 落地页。
+给 [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deepseek-harness) Web UI 的小叽皮肤插件:奶油底 + 腮红粉 + 暖棕描边的绘本配色,明暗两套 token,圆体字族、粉色选中态、噪点纹理和右下角漂浮的小叽角标。设计风格与配图来自 [Chobits-Chii-Mascot-Release](https://github.com/Anime2Real/Chobits-Chii-Mascot-Release) 落地页。
 
 > ⚠️ Chobits 及其角色的版权归 CLAMP 及相关权利方所有。本项目代码以 [MIT 许可证](./LICENSE) 发布,角色形象与随附素材仅用于本项目展示,请勿将角色形象用于商业用途。
 
@@ -30,10 +30,10 @@ dsh plugin --profile web add ./   # 以 link 方式挂进 profile,改完 build �
 
 ## 实现方式
 
-纯客户端(client-only)插件,两条互补的作用通道:
+纯客户端(client-only)插件,返回对象上声明 `inject: ['theme']` 让运行时在 theme 服务就绪后应用:
 
-1. **theme 服务**(优先通道):`theme.overrideTokens('chobits-chii', aliases)` 注册 66 个 `--dsw-*` token 的明暗两套覆盖(`src/tokens.js`),随 DSH 外观切换即时生效、可热清理
-2. **样式注入**(兜底通道):向 `<head>` 注入带 `data-plugin-css` 去重标记的样式,承载字体、选中态、噪点纹理与配图(`src/skin.css`),在 theme 服务不可用时依然生效
+1. **theme 服务通道**(主通道):`theme.overrideTokens('chobits-chii', aliases)` 注册 66 个 `--dsw-*` token 的明暗两套覆盖(`src/tokens.js`),随 DSH 外观切换即时生效、可热清理。DSH 的主题渲染器把 token 写在 `<body>` 的 inline style 上,这是唯一能压过内置默认值的通道
+2. **样式层**:向 `<head>` 注入带 `data-plugin-css` 去重标记的样式,承载字体、选中态、噪点纹理、粉彩光斑与配图(`src/skin.css`);其中 token 变量规则挂在 `body` 上,作为渲染器缺位时的次级保护
 
 配图在构建期内联为 data URI(`assets/*.webp` → base64),产物单文件、免网络请求。
 
@@ -63,6 +63,5 @@ token 名核对自 `@deepseek-ai/dsh-client-ui-theme@0.2.1-rc.5`(`dshTarget: 0.2
 
 ## 路线图
 
-- **v0.1(当前)**:皮肤 MVP —— token 双主题 + 字体/噪点/角标
-- **v0.2**:欢迎页/空状态配图(chii-hero、chii-picturebook)、设置页开关
+- **v0.1(当前)**:皮肤 MVP —— token 双主题 + 字体/噪点/角标- **v0.2**:欢迎页/空状态配图(chii-hero、chii-picturebook)、设置页开关
 - **v1.0(第二阶段)**:Live2D 小叽桌宠(会话状态驱动动作表情、点击插话),复用 [Chobits-Chii-Mascot](https://github.com/Anime2Real/Chobits-Chii-Mascot) 的 chii 模型资产

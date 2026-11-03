@@ -11,10 +11,30 @@
  * assets/<name>.webp 的 data URI。
  * ------------------------------------------------------------------------- */
 
-/* ---- 圆体字族:优先已安装的圆体,回退系统圆体/无衬线(不拉取网络字体) ---- */
+/* ---- 圆体字族:优先已安装的圆体,回退系统圆体/无衬线(不拉取网络字体) ----
+ * 说明:主题渲染器把字体变量写在 <body> 的 inline style 上,普通规则压不过,
+ * 这里用 !important 属于皮肤的本意(卸载插件即消失,不改用户持久设置)。 */
 body {
+  --dsh-font-family-text: "M PLUS Rounded 1c", "ZCOOL KuaiLe", ui-rounded, "SF Pro Rounded",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif !important;
   --dsw-font-family: "M PLUS Rounded 1c", "ZCOOL KuaiLe", ui-rounded, "SF Pro Rounded",
-    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif !important;
+}
+
+/* ---- 奶油底上的粉彩光斑(叠在 body 背景色之上;内层不透明面板会自然遮住) ---- */
+body {
+  background-image:
+    radial-gradient(60rem 40rem at 8% -10%, rgba(255, 211, 224, 0.55), transparent 60%),
+    radial-gradient(50rem 36rem at 100% 0%, rgba(235, 236, 250, 0.5), transparent 55%),
+    radial-gradient(46rem 32rem at 92% 100%, rgba(223, 243, 234, 0.5), transparent 55%),
+    radial-gradient(40rem 30rem at 0% 100%, rgba(246, 234, 223, 0.65), transparent 60%);
+  background-attachment: fixed;
+}
+body[data-ds-dark-theme] {
+  background-image:
+    radial-gradient(60rem 40rem at 8% -10%, rgba(242, 139, 171, 0.16), transparent 60%),
+    radial-gradient(50rem 36rem at 100% 0%, rgba(120, 110, 160, 0.14), transparent 55%),
+    radial-gradient(46rem 32rem at 92% 100%, rgba(110, 150, 130, 0.12), transparent 55%);
 }
 
 /* ---- 粉色选中态 ---- */
@@ -42,10 +62,10 @@ body[data-ds-dark-theme]::after {
   opacity: 0.035;
 }
 
-/* ---- 左下角小叽角标(漂浮动画,不挡交互) ---- */
+/* ---- 右下角小叽角标(漂浮动画,不挡交互;避开左下角账户区) ---- */
 .chobits-chii-corner {
   position: fixed;
-  left: 14px;
+  right: 14px;
   bottom: 14px;
   z-index: 2147483000;
   width: 56px;

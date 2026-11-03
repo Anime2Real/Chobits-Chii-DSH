@@ -46,6 +46,7 @@ const mod = registered.factory((id) => {
   throw new Error('皮肤插件不应 require 任何模块: ' + id)
 })
 assert.equal(typeof mod.apply, 'function', 'factory 须返回带 apply 的模块')
+assert.ok(Array.isArray(mod.inject) && mod.inject.includes('theme'), '插件须声明 inject: [theme],否则 theme 未就绪时会被静默跳过')
 
 // ---- 环境 1:无 theme 服务(仅样式通道) ----
 const ctxNoTheme = {

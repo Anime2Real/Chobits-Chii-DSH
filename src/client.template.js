@@ -37,9 +37,10 @@ window.__ModuleLoader__.load({
       console.warn('[' + PLUGIN_ID + '] ' + message, error || '')
     }
 
-    // 由 token 集生成 :root / 暗色作用域的 CSS 变量覆盖层。
-    // 作为 theme.overrideTokens 之外的兜底通道:即使运行版本的 theme 服务
-    // 不认某些 token 名,样式层依然生效(层叠优先级高于内置默认)。
+    // 由 token 集生成 token 变量覆盖层(兜底通道)。
+    // 注意:DSH 的主题渲染器把 token 写在 <body> 的 inline style 上,
+    // 样式层只在渲染器缺位(例如 theme 服务不可用的旧版本)时才有意义;
+    // 因此规则挂在 body 上(同特异性时后注入者胜),而不是 :root。
     function buildTokenStylesheet() {
       var light = []
       var dark = []
@@ -49,10 +50,10 @@ window.__ModuleLoader__.load({
         dark.push(alias + ':' + pair.dark)
       }
       return (
-        ':root{\n' + light.join(';\n') + '\n}\n' +
-        '.dark,\n[data-theme="dark"]{\n' + dark.join(';\n') + '\n}\n' +
+        'body{\n' + light.join(';\n') + '\n}\n' +
+        'body[data-ds-dark-theme]{\n' + dark.join(';\n') + '\n}\n' +
         '@media (prefers-color-scheme: dark){\n' +
-        '  :root:not(.light):not([data-theme="light"]){\n' + dark.join(';\n') + '\n  }\n' +
+        '  body:not([data-ds-dark-theme]){\n' + dark.join(';\n') + '\n  }\n' +
         '}\n'
       )
     }
@@ -88,8 +89,13 @@ window.__ModuleLoader__.load({
       }
     }
 
+    exports.name = PLUGIN_ID
+    // 客户端运行时按返回对象上的 inject 做激活门控:theme 服务就绪前挂起、
+    // 就绪后应用;provider 卸载时自动停车。缺少此声明会在服务未就绪时静默跳过。
+    exports.inject = ['theme']
+
     exports.apply = function (ctx) {
-      // 1) theme 服务集成:注册明暗两套 token(优先通道)
+      // 1) theme 服务集成:注册明暗两套 token(唯一能压过 body inline style 的通道)
       try {
         var theme = typeof ctx.get === 'function' ? ctx.get('theme') : undefined
         if (theme && typeof theme.overrideTokens === 'function') {
