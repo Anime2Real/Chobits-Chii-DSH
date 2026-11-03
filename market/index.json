@@ -66,11 +66,9 @@
       "versions": [
         {
           "version": "0.3.0",
-          "publishTimestamp": 1793703450,
+          "publishTimestamp": 1793707393,
           "source": {
-            "type": "git",
-            "url": "https://github.com/Anime2Real/Chobits-Chii-DSH",
-            "commit": "e0cba23bc99f4a4dcbc9fb8d91436865196b5489"
+            "type": "npm"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.5 <0.3.0"

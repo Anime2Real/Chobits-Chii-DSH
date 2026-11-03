@@ -4,6 +4,7 @@
   <p>A Chii-themed skin plugin for the DeepSeek Harness web UI.</p>
   <p>
     <a href="https://github.com/Anime2Real/Chobits-Chii-DSH"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-Chobits--Chii--DSH-181717?logo=github"></a>
+    <a href="https://www.npmjs.com/package/chobits-chii-dsh"><img alt="npm" src="https://img.shields.io/npm/v/chobits-chii-dsh.svg"></a>
     <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg"></a>
     <a href="https://github.com/topics/dsh-plugin"><img alt="dsh-plugin" src="https://img.shields.io/badge/topic-dsh--plugin-b0687f"></a>
     <a href="https://github.com/deepseek-ai/deepseek-harness"><img alt="dshTarget" src="https://img.shields.io/badge/dsh-0.2.1--rc.5-b0687f"></a>
@@ -30,10 +31,10 @@
 要求已安装 DeepSeek Harness(`dsh --version` 有输出),并至少启动过一次 `dsh web`:
 
 ```sh
-# npm(发布后可用)
+# npm(推荐)
 dsh plugin --profile web add chobits-chii-dsh
 
-# GitHub 源(无需 npm)
+# GitHub 源(备用)
 dsh plugin --profile web add github:Anime2Real/Chobits-Chii-DSH
 ```
 
