@@ -57,20 +57,21 @@ const index = {
   },
   metadata: {
     categories: {
-      theme: { title: { en: 'Themes & Appearance', zh: '主题与外观' } },
+      theme: { title: { en: 'Themes & Appearance', zh: '主题与外观', ja: 'テーマと外観' } },
     },
     labels: {
-      'photo-wall': { title: { en: 'Photo wall', zh: '照片墙' } },
-      'light-dark': { title: { en: 'Light & dark', zh: '明暗双主题' } },
+      'photo-wall': { title: { en: 'Photo wall', zh: '照片墙', ja: 'フォトウォール' } },
+      'light-dark': { title: { en: 'Light & dark', zh: '明暗双主题', ja: 'ライト＆ダーク' } },
     },
   },
   plugins: [
     {
       name: pkg.name,
-      title: { en: 'Chobits Chii', zh: '小叽绘本皮肤' },
+      title: { en: 'Chobits Chii', zh: '小叽绘本皮肤', ja: 'ちぃ絵本風スキン' },
       description: {
-        en: pkg.description,
+        en: 'Chii-themed picture-book skin for the DeepSeek Harness web UI — neutral warm palette, polaroid photo wall, and a built-in Live2D Chii mascot with gaze following.',
         zh: '中性暖调配色、明暗双 token、拍立得照片墙,以及内置 Live2D 小叽桌宠(视线跟随)的小叽绘本风皮肤。',
+        ja: 'ニュートラルな暖色パレット、ライト / ダークの 2 トークン、ポラロイド写真ウォール、視線追従する Live2D ちぃマスコットを備えた DeepSeek Harness Web UI 向けのちぃ絵本風スキンです。',
       },
       author: pkg.author,
       homepage: pkg.homepage,
