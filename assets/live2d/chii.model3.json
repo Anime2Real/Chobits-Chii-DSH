@@ -20,6 +20,10 @@
       {
         "Name": "Wuyu",
         "File": "chii.wuyu.exp3.json"
+      },
+      {
+        "Name": "Zhaoshou",
+        "File": "chii.zhaoshou.exp3.json"
       }
     ],
     "Motions": {
@@ -160,6 +164,14 @@
         {
           "File": "motion/chii_talk_smile.motion3.json",
           "Name": "说话微笑(循环)",
+          "FadeInTime": 0.4,
+          "FadeOutTime": 0.5
+        }
+      ],
+      "Wave": [
+        {
+          "File": "motion/chii_wave.motion3.json",
+          "Name": "招手",
           "FadeInTime": 0.4,
           "FadeOutTime": 0.5
         }

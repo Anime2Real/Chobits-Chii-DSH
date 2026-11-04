@@ -24,7 +24,7 @@
 - **拍立得照片墙**:落地页同款 5 张插画做成横 / 竖拍立得贴片,沿界面四周散布、向中心渐隐;左侧 300px 侧边栏区与正文区永不遮挡,窄窗口自动隐藏边缘照片
 - **轻微动态**:鼠标移动时照片按各自深度做反向视差,照片本身有极慢的漂浮;`prefers-reduced-motion` 下自动关闭,触屏不启用视差
 - **细节装饰**:圆体字族、玫瑰色选中态、绘本噪点纹理、暖调背景光斑
-- **Live2D 小叽桌宠**:右下角常驻的小叽(可在 **Plugins → chobits-chii-dsh** 的配置页里开关,记住选择),视线跟随鼠标;会话开始跑时切到 `Look`、空闲回到 `Idle`;模型是 2048 贴图 WebP 的精简版(约 2.7 MB),随包内置、离线可用,无 WebGL 或加载失败时安静退回照片墙(点击穿透,不做点击触发动作)
+- **Live2D 小叽桌宠**:右下角常驻的小叽(可在 **Plugins → chobits-chii-dsh** 的配置页里开关,记住选择),视线跟随鼠标;会话开始跑时切到 `Look`、空闲回到 `Idle`;模型是 1024 贴图 WebP 的精简版(约 2.5 MB),随包内置、离线可用,无 WebGL 或加载失败时安静退回照片墙(点击穿透,不做点击触发动作)
 - **纯客户端、免构建安装**:`lib/client.js` 已随仓库提交,`dsh plugin add` 后即可用;配图构建期内联为 data URI,Live2D 运行时与模型由 host 半的只读路由伺服
 - **可热卸载**:一切样式与 DOM 注入都走 `ctx.effect`,禁用 / 卸载插件即完全还原
 
@@ -110,7 +110,7 @@ src/live2d.js          # Live2D 桌宠控制器(构建期内联)
 src/tokens.js          # 明暗两套 --dsw-* token 集
 src/skin.css           # 装饰层(字体/噪点/照片墙/桌宠),支持 asset("name") 引用配图
 assets/                # 5 张 jpg 配图(构建期内联)
-assets/live2d/         # web 精简模型(2.7 MB)+ 运行时库 + Core(路由伺服,不进 bundle)
+assets/live2d/         # web 精简模型(2.5 MB)+ 运行时库 + Core(路由伺服,不进 bundle)
 docs/                  # README 预览截图、Live2D 方案文档
 market/index.json      # Discover 索引(format 1)
 market/awesome/        # awesome-dsh-plugin 投稿条目
@@ -126,7 +126,7 @@ scripts/market-index.mjs # 生成 Discover 索引
 - **v0.3**:中性配色 + 横竖拍立得 + 侧边栏/正文避让(仅用落地页 5 张图)
 - **v1.0(当前)**:Live2D 小叽桌宠 —— 内置 web 精简模型、右下角常驻、视线跟随、`running → Look` / 空闲 → `Idle`、Plugins 页开关
 - **v1.1**:更多状态联动(审批 → 警觉、完成 / 失败 → 表情)、桌宠可拖动、缩放设置项
-- **v1.2**:`Chobits-Chii-Live2D` 侧导出更小的 1024 贴图变体、无障碍与性能巡检
+- **v1.2**:无障碍与性能巡检(1024 贴图变体已落地)
 
 ## 🏠 关于 Anime2Real
 
@@ -157,6 +157,6 @@ scripts/market-index.mjs # 生成 Discover 索引
 - **资产**（`assets/` 里的 5 张插画、`assets/live2d/` 里的模型与运行时库、`docs/` 里的预览图）：© Anime2Real，保留所有权利；只允许作为本插件的一部分、原样、非商业使用，不得单独提取或再分发。完整条款见 [ASSETS.md](./ASSETS.md)
 - **角色形象**（小叽 / Chii、《人形电脑天使心》）的著作权归 CLAMP 及相关权利方所有；Anime2Real 不主张、也无法授予这些权利
 - **第三方组件**：`live2dcubismcore.min.js`（Live2D Cubism Core）按 [Live2D Proprietary Software License](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html) 随包分发（官方 `RedistributableFiles.txt` 清单允许再分发），许可文本见同目录 `LICENSE-Live2D-Core.md`；`pixi.min.js` / `live2d.min.js` / `pixi-live2d-display.min.js` 为 MIT——汇总见 [NOTICE](./NOTICE)
-- **模型来源**：`assets/live2d/chii.model3.json` 等由 [Chobits-Chii-Live2D](https://github.com/Anime2Real/Chobits-Chii-Live2D) 的 `pipeline/export-web.mjs` 从现役运行时模型导出的 web 精简版（2048 贴图 WebP），来源与体积记录在同目录 `SOURCE.md`
+- **模型来源**：`assets/live2d/chii.model3.json` 等由 [Chobits-Chii-Live2D](https://github.com/Anime2Real/Chobits-Chii-Live2D) 的 `pipeline/export-web.mjs` 从现役运行时模型导出的 web 精简版（1024 贴图 WebP），来源与体积记录在同目录 `SOURCE.md`
 
 > 说明：GitHub 的许可识别只看 `LICENSE`，仓库页面上仍会显示 MIT——资产条款以 README 与 [ASSETS.md](./ASSETS.md) 为准。

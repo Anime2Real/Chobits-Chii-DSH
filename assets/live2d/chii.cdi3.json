@@ -152,6 +152,11 @@
 			"Name": "耳朵"
 		},
 		{
+			"Id": "Param32",
+			"GroupId": "ParamGroup",
+			"Name": "招手wl"
+		},
+		{
 			"Id": "Param33",
 			"GroupId": "ParamGroup2",
 			"Name": "黑脸"
@@ -165,6 +170,11 @@
 			"Id": "Param35",
 			"GroupId": "ParamGroup2",
 			"Name": "无语"
+		},
+		{
+			"Id": "Param36",
+			"GroupId": "ParamGroup2",
+			"Name": "招手"
 		},
 		{
 			"Id": "ParamAngleX",
@@ -811,6 +821,10 @@
 	],
 	"Parts": [
 		{
+			"Id": "Part20",
+			"Name": "招手"
+		},
+		{
 			"Id": "Part",
 			"Name": "五官修"
 		},
@@ -869,6 +883,10 @@
 		{
 			"Id": "ArtMesh86_Skinning",
 			"Name": "0-1(蒙皮)"
+		},
+		{
+			"Id": "Part21",
+			"Name": "招手大臂"
 		},
 		{
 			"Id": "ArtMesh89_Skinning",

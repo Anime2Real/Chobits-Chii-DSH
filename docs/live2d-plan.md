@@ -66,7 +66,7 @@ Live2D 会同时挑战后两条：需要 host 半伺服资产、需要引入第�
 照片墙的插画本来就走这里），把 web 变体放进去与现有做法一致。
 
 **已决定（2026-11-03）**：走 **C 内置精简版**。`Chobits-Chii-Live2D` 已补上 `pipeline/export-web.mjs`，
-现役运行时模型导出为 2.69 MB（贴图 14.36 MB → 404 KB + 9 KB，WebP 2048），随 npm 包发布、
+现役运行时模型导出为 2.49 MB（贴图 14.36 MB → 404 KB + 9 KB，WebP 2048），随 npm 包发布、
 由 host 路由伺服；本地目录覆盖与远程源都先不做。
 
 ## 5. 状态联动映射（复用 Mascot 的 trigger 表）
@@ -114,7 +114,7 @@ Mascot 的 `resources/characters/live2d/chii/live2d.json` 已经把 22 组动作
 - ⏳ 设置项：模型源（本地覆盖）、缩放、"可拖动"（默认关）
 
 **v1.2 — 更小的精简模型 + 降级**
-- Live2D 仓库补 1024 贴图变体，按观感在 1 MB 与 2.7 MB 之间取舍
+- ✅ Live2D 仓库贴图变体已定为 1024×1024（2026-11-04 按 1024 重导出，贴图 404 KB → 180 KB + 3 KB）
 - 无 WebGL / 加载失败时降级为静态立绘（当前是直接退回照片墙）
 - 性能巡检：首屏不加载、显存、帧率
 
@@ -144,10 +144,10 @@ Mascot 的 `resources/characters/live2d/chii/live2d.json` 已经把 22 组动作
 2. **点击交互**：**视线跟随做**（`autoInteract` 关掉、只在 `pointermove` 里手动 `model.focus`，所以点击不会触发动作）；
    点击触发动作（`TapBody`）留到后续版本；`prefers-reduced-motion` 或触屏下不启用视线跟随。
 3. **气泡对话**：暂不做（TTS/ASR 留到后续大版本）。
-4. **模型源**：**内置精简版**（2.69 MB，随 npm 包发布，host 路由伺服），不依赖远程托管。
+4. **模型源**：**内置精简版**（2.49 MB，随 npm 包发布，host 路由伺服），不依赖远程托管。
 
 仍然开放的问题：
-- 精简模型的贴图尺寸（2048 还是 1024）需要按实际观感定。
+- ✅ 精简模型的贴图尺寸：已定为 1024×1024（2026-11-04 重导出）。
 - 是否把运行时库（pixi + pixi-live2d-display）也走 CDN，换取更小的 npm 包。
 
 ## 11. 实施记录（v1.1，已完成）
@@ -155,7 +155,7 @@ Mascot 的 `resources/characters/live2d/chii/live2d.json` 已经把 22 组动作
 已落地：
 
 - `Chobits-Chii-Live2D/pipeline/export-web.mjs`：导出 web 精简模型（`sharp` 仅 devDependency）
-- `assets/live2d/`：42 个文件、2.69 MB——模型 + 运行时库 + Cubism Core（含 `LICENSE-Live2D-Core.md` 与
+- `assets/live2d/`：44 个文件、2.49 MB——模型 + 运行时库 + Cubism Core（含 `LICENSE-Live2D-Core.md` 与
   `RedistributableFiles.txt`）+ `SOURCE.md`
 - `lib/index.js`：`ctx.webServer.register({kind:'prefix', path:'/chii-live2d/assets'})`，带路径穿越防护、
   `ETag` / `Cache-Control`、GET/HEAD、405
