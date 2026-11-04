@@ -66,7 +66,7 @@ Live2D 会同时挑战后两条：需要 host 半伺服资产、需要引入第�
 照片墙的插画本来就走这里），把 web 变体放进去与现有做法一致。
 
 **已决定（2026-11-03）**：走 **C 内置精简版**。`Chobits-Chii-Live2D` 已补上 `pipeline/export-web.mjs`，
-现役运行时模型导出为 2.49 MB（贴图 14.36 MB → 404 KB + 9 KB，WebP 2048），随 npm 包发布、
+现役运行时模型导出为 2.49 MB（1024 贴图 WebP：texture_00 180 KB + texture_01 3 KB；2026-11-04 由 2048 重导出），随 npm 包发布、
 由 host 路由伺服；本地目录覆盖与远程源都先不做。
 
 ## 5. 状态联动映射（复用 Mascot 的 trigger 表）
@@ -87,7 +87,7 @@ Mascot 的 `resources/characters/live2d/chii/live2d.json` 已经把 22 组动作
 ## 6. 性能与降级
 
 - **显存**：两张 8192² RGBA 贴图 ≈ 512 MB；移动端常见 `MAX_TEXTURE_SIZE` 为 4096，**会直接加载失败**。
-  这是必须解决的硬约束 → 需要 C 方案（2048 贴图 ≈ 32 MB）。
+  这是必须解决的硬约束 → 需要 C 方案（现用 1024 贴图 ≈ 8 MB）。
 - **懒加载**：默认关闭；开启后首屏不阻塞，`requestIdleCallback` 之后再拉运行时；页面 `visibilitychange` 时暂停 rAF。
 - **WebGL 上下文丢失**：监听 `webglcontextlost`，重建或降级为静态立绘。
 - **降级路径**：无 WebGL → 显示静态立绘（可以直接复用照片墙里的 `wall-chii-hero` 或 `wall-chii-picturebook`），
