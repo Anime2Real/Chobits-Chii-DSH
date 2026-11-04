@@ -128,7 +128,8 @@ scripts/market-index.mjs # generates the Discover index
 - **v0.2**: Polaroid photo wall background (fading toward the center)
 - **v0.3**: neutral palette + portrait/landscape Polaroids + sidebar/content avoidance (landing-page five images only)
 - **v1.0**: Live2D Chii mascot — bundled web slim model, bottom-right corner, gaze following, `running → Look` / idle → `Idle`, Plugins page toggle
-- **v1.0.1 (current)**: Live2D textures moved to 1024×1024 (2.5 MB model), re-exported from the runtime source model
+- **v1.0.1**: Live2D textures moved to 1024×1024 (2.5 MB model), re-exported from the runtime source model
+- **v1.0.2 (current)**: English and Japanese READMEs with a language switcher; package description in Chinese, Japanese and English
 - **v1.1**: more state triggers (approval → alert, turn done / failed → expressions), draggable mascot, scale setting
 - **v1.2**: accessibility and performance pass (1024 texture variant done)
 
