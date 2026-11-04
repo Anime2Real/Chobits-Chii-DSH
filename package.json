@@ -1,7 +1,7 @@
 {
   "name": "chobits-chii-dsh",
   "version": "1.0.1",
-  "description": "Chobits Chii skin for DeepSeek Harness web UI — neutral warm picture-book palette, a polaroid photo wall, and a built-in Live2D Chii mascot with gaze following",
+  "description": "Chii-themed picture-book skin for the DeepSeek Harness web UI — neutral warm palette, polaroid photo wall, built-in Live2D Chii mascot（小叽绘本风皮肤 · ちぃ絵本風スキン）",
   "type": "module",
   "license": "MIT",
   "author": "Anime2Real",
