@@ -217,6 +217,9 @@ window.__ModuleLoader__.load({
           disposeRemote()
           disposeRemote = null
         }
+        // 退订期间收不到 status 事件，这张表就此失效：不清会让「关掉再开」后
+        // 永远残留一个 running 会话，桌宠在空闲时也一直播 thinking
+        runningSessions = {}
         if (disposeIdleCallback) {
           disposeIdleCallback()
           disposeIdleCallback = null
